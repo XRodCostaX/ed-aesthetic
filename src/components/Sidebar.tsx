@@ -10,8 +10,8 @@ import {
   CreditCard,
   Boxes,
   ShieldCheck,
-  MessageSquare,
   TrendingUp,
+  X,
 } from 'lucide-react';
 
 interface NavItem {
@@ -24,7 +24,14 @@ interface NavItem {
 }
 
 export default function Sidebar() {
-  const { activeTab, setActiveTab, insumos, appointments } = useApp();
+  const {
+    activeTab,
+    setActiveTab,
+    insumos,
+    appointments,
+    isMobileMenuOpen,
+    setIsMobileMenuOpen,
+  } = useApp();
 
   const criticalStockCount = insumos.filter((i) => i.status === 'critico').length;
   const pendingApts = appointments.filter((a) => a.whatsappStatus === 'pendente').length;
@@ -39,9 +46,9 @@ export default function Sidebar() {
     {
       id: 'agenda',
       label: 'Agenda & Salas',
-      sublabel: 'Calendário & Lembretes WhatsApp',
+      sublabel: 'Calendário & WhatsApp',
       icon: CalendarDays,
-      badge: pendingApts > 0 ? `${pendingApts} pendentes` : undefined,
+      badge: pendingApts > 0 ? `${pendingApts}` : undefined,
       badgeColor: 'bg-amber-100 text-amber-800 border-amber-200',
     },
     {
@@ -53,32 +60,32 @@ export default function Sidebar() {
     {
       id: 'catalogo',
       label: 'Catálogo de Serviços',
-      sublabel: 'Fichas Técnicas de Insumos',
+      sublabel: 'Fichas Técnicas (BOM)',
       icon: Sparkles,
     },
     {
       id: 'orcamentos',
       label: 'Orçamentos & Checkout',
-      sublabel: 'Simulador Maquininha & Recibos',
+      sublabel: 'Simulador & Recibos',
       icon: CreditCard,
     },
     {
       id: 'estoque',
-      label: 'Estoque de Alta Precisão',
+      label: 'Estoque de Precisão',
       sublabel: 'Lotes, Validade & Baixas',
       icon: Boxes,
-      badge: criticalStockCount > 0 ? `${criticalStockCount} alertas` : undefined,
+      badge: criticalStockCount > 0 ? `${criticalStockCount}` : undefined,
       badgeColor: 'bg-rose-100 text-rose-800 border-rose-200',
     },
   ];
 
-  return (
-    <aside className="w-68 bg-[#181615] text-stone-200 flex flex-col justify-between shrink-0 border-r border-stone-800 min-h-screen">
+  const renderNavContent = () => (
+    <>
       <div>
         {/* Brand Header */}
-        <div className="p-6 border-b border-stone-800/80">
+        <div className="p-5 sm:p-6 border-b border-stone-800/80 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 via-amber-500 to-amber-300 flex items-center justify-center shadow-lg shadow-amber-950/40">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 via-amber-500 to-amber-300 flex items-center justify-center shadow-lg shadow-amber-950/40 shrink-0">
               <span className="font-serif text-stone-950 font-black text-xl">Ed</span>
             </div>
             <div>
@@ -90,12 +97,20 @@ export default function Sidebar() {
               </div>
             </div>
           </div>
+
+          {/* Close button inside mobile drawer */}
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="lg:hidden p-1.5 text-stone-400 hover:text-white rounded-lg hover:bg-stone-800 transition"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
-        {/* Navigation */}
+        {/* Navigation items */}
         <nav className="p-3 space-y-1">
           <div className="px-3 py-2 text-[10px] uppercase font-bold tracking-wider text-stone-400">
-            Navegação Principal
+            Módulos do Sistema
           </div>
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -158,6 +173,90 @@ export default function Sidebar() {
           </span>
         </div>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* 1. Desktop Persistent Sidebar */}
+      <aside className="hidden lg:flex w-68 bg-[#181615] text-stone-200 flex-col justify-between shrink-0 border-r border-stone-800 min-h-screen sticky top-0 h-screen overflow-y-auto">
+        {renderNavContent()}
+      </aside>
+
+      {/* 2. Mobile Off-Canvas Drawer (Slide-Over) */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity duration-300"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+
+          {/* Drawer Panel */}
+          <div className="relative w-4/5 max-w-xs bg-[#181615] text-stone-200 flex flex-col justify-between z-10 shadow-2xl h-full overflow-y-auto animate-in slide-in-from-left duration-200">
+            {renderNavContent()}
+          </div>
+        </div>
+      )}
+
+      {/* 3. Mobile Bottom Navigation Bar (Ultra-responsive quick bar) */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#181615]/95 backdrop-blur-lg border-t border-stone-800/90 flex justify-around items-center py-2 px-1 text-stone-400 shadow-xl">
+        <button
+          onClick={() => setActiveTab('dashboard')}
+          className={`flex flex-col items-center gap-1 p-1.5 transition ${
+            activeTab === 'dashboard' ? 'text-amber-400 font-bold' : 'hover:text-stone-200'
+          }`}
+        >
+          <LayoutDashboard className="w-4 h-4" />
+          <span className="text-[10px]">Início</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('agenda')}
+          className={`flex flex-col items-center gap-1 p-1.5 transition relative ${
+            activeTab === 'agenda' ? 'text-amber-400 font-bold' : 'hover:text-stone-200'
+          }`}
+        >
+          <CalendarDays className="w-4 h-4" />
+          <span className="text-[10px]">Agenda</span>
+          {pendingApts > 0 && (
+            <span className="absolute top-1 right-2 w-2 h-2 rounded-full bg-amber-400" />
+          )}
+        </button>
+
+        <button
+          onClick={() => setActiveTab('prontuario')}
+          className={`flex flex-col items-center gap-1 p-1.5 transition ${
+            activeTab === 'prontuario' ? 'text-amber-400 font-bold' : 'hover:text-stone-200'
+          }`}
+        >
+          <FileText className="w-4 h-4" />
+          <span className="text-[10px]">Prontuário</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('orcamentos')}
+          className={`flex flex-col items-center gap-1 p-1.5 transition ${
+            activeTab === 'orcamentos' ? 'text-amber-400 font-bold' : 'hover:text-stone-200'
+          }`}
+        >
+          <CreditCard className="w-4 h-4" />
+          <span className="text-[10px]">Orçamentos</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('estoque')}
+          className={`flex flex-col items-center gap-1 p-1.5 transition relative ${
+            activeTab === 'estoque' ? 'text-amber-400 font-bold' : 'hover:text-stone-200'
+          }`}
+        >
+          <Boxes className="w-4 h-4" />
+          <span className="text-[10px]">Estoque</span>
+          {criticalStockCount > 0 && (
+            <span className="absolute top-1 right-2 w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+          )}
+        </button>
+      </nav>
+    </>
   );
 }

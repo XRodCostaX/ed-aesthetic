@@ -221,7 +221,7 @@ export default function ProntuarioView() {
                     </div>
 
                     {/* Interactive Before & After Slider */}
-                    <div className="relative h-80 sm:h-96 rounded-2xl overflow-hidden select-none border border-stone-200 shadow-inner group">
+                    <div className="relative h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden select-none border border-stone-200 shadow-inner group">
                       {/* After Image (Background) */}
                       <img
                         src={record.afterImageUrl}
@@ -264,7 +264,7 @@ export default function ProntuarioView() {
                         max="100"
                         value={sliderPosition}
                         onChange={(e) => setSliderPosition(Number(e.target.value))}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-20"
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-20 touch-none"
                       />
                     </div>
 

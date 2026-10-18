@@ -64,12 +64,20 @@ interface AppContextType {
   setActiveWhatsAppModalAppointment: (apt: Appointment | null) => void;
   activeCheckoutBudget: Budget | null;
   setActiveCheckoutBudget: (budget: Budget | null) => void;
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (open: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
-  const [activeTab, setActiveTab] = useState<NavigationTab>('dashboard');
+  const [activeTab, setActiveTabState] = useState<NavigationTab>('dashboard');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+
+  const setActiveTab = (tab: NavigationTab) => {
+    setActiveTabState(tab);
+    setIsMobileMenuOpen(false); // auto-close menu on selection
+  };
   const [appointments, setAppointments] = useState<Appointment[]>(INITIAL_APPOINTMENTS);
   const [insumos, setInsumos] = useState<Insumo[]>(INITIAL_INSUMOS);
   const [patients, setPatients] = useState<Patient[]>(INITIAL_PATIENTS);
@@ -313,6 +321,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setActiveWhatsAppModalAppointment,
         activeCheckoutBudget,
         setActiveCheckoutBudget,
+        isMobileMenuOpen,
+        setIsMobileMenuOpen,
       }}
     >
       {children}

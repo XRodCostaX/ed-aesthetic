@@ -46,10 +46,10 @@ export default function WhatsAppModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden border border-stone-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full max-h-[92vh] flex flex-col overflow-hidden border border-stone-200">
         {/* Header */}
-        <div className="bg-[#075E54] text-white p-4 flex items-center justify-between">
+        <div className="bg-[#075E54] text-white p-3.5 sm:p-4 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center text-white font-bold ring-2 ring-emerald-300/40">
               <MessageCircle className="w-5 h-5" />
@@ -70,7 +70,7 @@ export default function WhatsAppModal() {
         </div>
 
         {/* WhatsApp Chat Simulation */}
-        <div className="p-4 bg-[#EFEAE2] min-h-[300px] flex flex-col justify-end space-y-3">
+        <div className="p-3 sm:p-4 bg-[#EFEAE2] flex-1 overflow-y-auto min-h-[200px] flex flex-col justify-end space-y-3">
           <div className="text-center">
             <span className="text-[10px] bg-white/80 backdrop-blur text-stone-600 px-3 py-1 rounded-full shadow-xs">
               Hoje às {apt.time}

@@ -185,8 +185,8 @@ export default function EstoqueView() {
           </div>
         </div>
 
-        {/* Table */}
-        <div className="overflow-x-auto">
+        {/* Desktop Table View */}
+        <div className="hidden lg:block overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-stone-200/80 text-stone-400 font-semibold uppercase tracking-wider text-[10px]">
@@ -275,6 +275,84 @@ export default function EstoqueView() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Cards View (Visible on phones and small tablets) */}
+        <div className="lg:hidden space-y-3">
+          {filteredInsumos.map((item) => (
+            <div
+              key={item.id}
+              className="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-3 text-xs"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <div className="font-serif font-bold text-sm text-stone-900">{item.name}</div>
+                  <div className="text-[11px] text-stone-500">{item.brand}</div>
+                </div>
+                {item.status === 'normal' && (
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                    Regular
+                  </span>
+                )}
+                {item.status === 'alerta' && (
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
+                    Atenção
+                  </span>
+                )}
+                {item.status === 'critico' && (
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-200 animate-pulse">
+                    Crítico!
+                  </span>
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-[11px] text-stone-600 bg-white p-2.5 rounded-xl border border-stone-200/80">
+                <div>
+                  <span className="text-stone-400 block text-[10px]">LOTE / VALIDADE</span>
+                  <span className="font-mono font-medium text-stone-900">{item.lote}</span>
+                  <span className="block text-[10px] text-stone-500">
+                    Val: {item.expiryDate.split('-').reverse().join('/')}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-stone-400 block text-[10px]">CUSTO UNITÁRIO</span>
+                  <span className="font-semibold text-stone-900">
+                    R$ {item.costPerUnit.toFixed(2)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between pt-1">
+                <div>
+                  <span className="text-[10px] text-stone-400 uppercase block font-semibold">
+                    Quantidade Atual
+                  </span>
+                  <span className="text-base font-bold text-stone-900 font-mono">
+                    {item.quantity}{' '}
+                    <span className="text-xs font-normal text-stone-500">{item.unit}(s)</span>
+                  </span>
+                  <span className="text-[10px] text-stone-400 block">
+                    (mínimo seguro: {item.minThreshold})
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2 bg-stone-200/70 p-1 rounded-xl">
+                  <button
+                    onClick={() => adjustStockQuantity(item.id, -1)}
+                    className="w-8 h-8 rounded-lg bg-white text-stone-800 font-bold text-sm shadow-xs flex items-center justify-center active:scale-95"
+                  >
+                    -
+                  </button>
+                  <button
+                    onClick={() => adjustStockQuantity(item.id, 1)}
+                    className="w-8 h-8 rounded-lg bg-white text-stone-800 font-bold text-sm shadow-xs flex items-center justify-center active:scale-95"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

@@ -114,9 +114,9 @@ export default function AgendaView() {
 
       {/* Filter Bar */}
       <div className="bg-white p-4 rounded-2xl border border-stone-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
           {/* Room filter */}
-          <div className="flex items-center gap-1.5 text-xs text-stone-600 bg-stone-100/80 p-1 rounded-xl">
+          <div className="flex items-center gap-1.5 text-xs text-stone-600 bg-stone-100/80 p-1 rounded-xl overflow-x-auto max-w-full">
             <button
               onClick={() => setSelectedRoom('todas')}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${
@@ -331,9 +331,9 @@ export default function AgendaView() {
 
       {/* Modal: New Appointment */}
       {isNewModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden border border-stone-200">
-            <div className="bg-stone-900 text-white p-5 flex items-center justify-between">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full max-h-[92vh] flex flex-col overflow-hidden border border-stone-200">
+            <div className="bg-stone-900 text-white p-4 sm:p-5 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2">
                 <CalendarIcon className="w-5 h-5 text-amber-400" />
                 <h3 className="font-serif font-bold text-base text-amber-100">
@@ -348,7 +348,7 @@ export default function AgendaView() {
               </button>
             </div>
 
-            <form onSubmit={handleCreateAppointment} className="p-6 space-y-4 text-xs">
+            <form onSubmit={handleCreateAppointment} className="p-4 sm:p-6 space-y-4 text-xs overflow-y-auto">
               <div>
                 <label className="block text-stone-700 font-semibold mb-1">
                   Nome da Paciente:

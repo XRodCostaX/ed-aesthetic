@@ -90,10 +90,10 @@ export default function CheckoutModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl shadow-2xl max-w-xl w-full overflow-hidden border border-stone-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white rounded-3xl shadow-2xl max-w-xl w-full max-h-[92vh] flex flex-col overflow-hidden border border-stone-200">
         {/* Header */}
-        <div className="bg-gradient-to-r from-stone-900 to-stone-800 text-white p-5 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-stone-900 to-stone-800 text-white p-4 sm:p-5 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
               <CreditCard className="w-5 h-5" />
@@ -116,7 +116,7 @@ export default function CheckoutModal() {
         </div>
 
         {!receiptGenerated ? (
-          <div className="p-6 space-y-6 max-h-[80vh] overflow-y-auto">
+          <div className="p-4 sm:p-6 space-y-5 sm:space-y-6 flex-1 overflow-y-auto">
             {/* Procedures summary */}
             <div className="bg-stone-50 rounded-2xl p-4 border border-stone-200 space-y-2">
               <div className="text-xs font-semibold text-stone-500 uppercase tracking-wider">
@@ -290,7 +290,7 @@ export default function CheckoutModal() {
           </div>
         ) : (
           /* Receipt Generated View */
-          <div className="p-6 space-y-5">
+          <div className="p-4 sm:p-6 space-y-4 sm:space-y-5 flex-1 overflow-y-auto">
             <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
               <div className="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-2">
                 <CheckCircle className="w-6 h-6" />
